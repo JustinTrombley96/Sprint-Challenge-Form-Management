@@ -1,26 +1,27 @@
 import React, {useState, useEffect} from 'react'
 import { axiosWithAuth } from './axiosWithAuth';
 
-const Data = (props) => {
-    const [data, setData] = useState([])
+const RecipeList = () => {
+    const [recipes , setRecipes] = useState([])
 
     useEffect(() => {
         axiosWithAuth().get('http://localhost:5000/api/restricted/data')
-        .then(res => setData(res.data))
+        .then(res => setRecipes(res.data))
         .catch(err => console.log(err))
     }, [])
     return (
-        <div className="AllData">
-        {data.map(data => {
+        <div className="RecipesList">
+        <h1>Recipes</h1>
+        {recipes.map(recipe => {
             return (
-            <div className="Data">
-            {data.name}
-            {data.age}
-            {data.email}
+            <div className="Recipe">
+            <h3>
+            {recipe.name}
+            </h3>
             </div>
             )
         })}
         </div>
     )
 }
-export default Data
+export default RecipeList

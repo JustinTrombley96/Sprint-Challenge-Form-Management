@@ -3,7 +3,7 @@ import './App.css';
 import Register from './components/Register';
 import {Route} from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
-import Data from './components/Data'
+import Data from './components/Recipes'
 
 function App() {
   return (
