@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Form, Input } from 'semantic-ui-react';
-import { Formik, withFormik,  } from 'formik';
+import { Formik, withFormik, Field, Form  } from 'formik';
 import * as Yup from 'yup'
 
 const Register = (props, touched, errors) => {
@@ -38,8 +37,8 @@ const Register = (props, touched, errors) => {
         <div>
         {touched.username && errors.username && <h3>{errors.username}</h3>} 
 
-          <Form.Field
-            control={Input}
+          <Field
+            placeholder="Username"
             label='username'
             name='username'
             id='username'
@@ -51,8 +50,8 @@ const Register = (props, touched, errors) => {
 
         <div>
         {touched.password && errors.password && <h3>{errors.password}</h3>} 
-          <Form.Field
-            control={Input}
+          <Field
+            placeholder="Password"
             label='password'
             name='password'
             id='password'
@@ -62,7 +61,7 @@ const Register = (props, touched, errors) => {
           />
         </div>
 
-          <Button type='submit'>Register</Button>
+          <button type='submit'>Register</button>
         </Form>
         
       )
@@ -89,19 +88,21 @@ const FormikRegister = withFormik({
             .min(6, "Your password must have a minimum of six characters.")
             .required("Password is required"),        
     }),
-    handleSubmit(values, { setSubmitting }) {
+    handleSubmit(values, {resetForm, setSubmitting }) {
         console.log(values)
-                // axios
-                //     .post("http://localhost:5000/api/register", values)
-                //     .then(res => {
-                //         console.log("Success", res) 
-                //         setSubmitting(false)
+                axios
+                    .post("https://reqres.in/api/users", values)
+                    .then(res => {
+                        console.log("Success", res) 
+                        resetForm();
+                        setSubmitting(false)
+                
 
-                //     })
-                //     .catch(err => {
-                //         console.log(err)
-                //         setSubmitting(false)
-                //     })
+                    })
+                    .catch(err => {
+                        console.log(err) 
+                        setSubmitting(false)
+                    })
             }
         }
     )(Register) 
