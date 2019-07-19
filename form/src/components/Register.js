@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import { Formik, withFormik, Field, Form  } from 'formik';
+import { Formik, Field, Form  } from 'formik';
 import * as Yup from 'yup'
 
-const Register = (props, touched, errors) => {
+const Register = (props) => {
   return (
     <Formik
       initialValues={{
@@ -22,6 +22,18 @@ const Register = (props, touched, errors) => {
           .then(() => props.history.push('restricted/data'))
           .catch(err => console.log(err));
       }}
+
+      validationSchema={() => 
+        Yup.object().shape({
+            username: Yup.string()
+                .max(30, "This name is way too long.")
+                .required("A name is required"),
+
+            password: Yup.string()
+                .min(6, "Your password must have a minimum of six characters.")
+                .required("Password is required"),        
+        })
+      } 
       
       render={props => (
           
@@ -35,7 +47,7 @@ const Register = (props, touched, errors) => {
           onSubmit={props.handleSubmit}
         >
         <div>
-        {touched.username && errors.username && <h3>{errors.username}</h3>} 
+        {props.touched.username && props.errors.username && <h3>{props.errors.username}</h3>} 
 
           <Field
             placeholder="Username"
@@ -49,7 +61,7 @@ const Register = (props, touched, errors) => {
           </div>
 
         <div>
-        {touched.password && errors.password && <h3>{errors.password}</h3>} 
+        {props.touched.password && props.errors.password && <h3>{props.errors.password}</h3>} 
           <Field
             placeholder="Password"
             label='password'
@@ -72,39 +84,5 @@ const Register = (props, touched, errors) => {
   );
   
 };
-const FormikRegister = withFormik({
-    mapPropsToValues({ username, password}) {
-        return {
-        username: username || "",
-        password: password || "",
-        }
-    },
 
-    validationSchema: Yup.object().shape({
-        username: Yup.string()
-            .required("A name is required")
-            .max(30, "This name is way too long."),
-        password: Yup.string()
-            .min(6, "Your password must have a minimum of six characters.")
-            .required("Password is required"),        
-    }),
-    handleSubmit(values, {resetForm, setSubmitting }) {
-        console.log(values)
-                axios
-                    .post("https://reqres.in/api/users", values)
-                    .then(res => {
-                        console.log("Success", res) 
-                        resetForm();
-                        setSubmitting(false)
-                
-
-                    })
-                    .catch(err => {
-                        console.log(err) 
-                        setSubmitting(false)
-                    })
-            }
-        }
-    )(Register) 
-
-export default FormikRegister;
+export default Register;
