@@ -59,7 +59,7 @@ Follow these steps for completing your project:
 
 Your finished project must include all of the following requirements:
 
-- [ ] A registration form built with formik - include inputs for a `username` and a `password`
+- [X] A registration form built with formik - include inputs for a `username` and a `password`
 - [ ] Form validation using Yup
 - [ ] A POST request made from the registration form to `http://localhost:6000/api/register` to add a user and retrieve a token - the request body should have the following shape:
 
@@ -82,7 +82,7 @@ and the response object will look like this:
 
 - [ ] Write a custom hook that can set and retrieve this token to and from local storage
 
-- [ ] A GET request made with the token to `http://localhost:6000/api/restricted/data` to retrieve protected data
+- [ ] A GET request made with the token to `http://localhost:5000/api/restricted/data` to retrieve protected data
 
 - [ ] Map over the array of objects you recieve and render some or all of it's information to the DOM.
 
